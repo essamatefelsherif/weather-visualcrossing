@@ -13,7 +13,7 @@
 		"devUpdate"   : "npm run testReport && npm run devGenhtml && npm run devDoc",
 		"devCoveralls": "coveralls < docs/coverage/node/lcov.info"
 	},
-	"keywords": ["visualcrossing", "weather-api"],
+	"keywords": ["visualcrossing", "weather-api", "node.js"],
 	"author": {
 		"name" : "Essam A. El-Sherif",
 		"email": "esm.elsh@gmail.com",
