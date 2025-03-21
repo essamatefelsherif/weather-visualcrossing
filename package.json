@@ -1,0 +1,32 @@
+{
+	"name"   : "@essamonline/weather-visualcrossing",
+	"version": "1.0.0",
+	"description": "JavaScript Library To Access Weather Data from Visual Crossing Weather API.",
+	"main"   : "lib/weather.js",
+	"type"   : "module",
+	"scripts": {
+		"test"        : "node --test",
+		"testCover"   : "node --test --experimental-test-coverage",
+		"testReport"  : "node --test --experimental-test-coverage --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=docs/coverage/node/lcov.info",
+		"devGenhtml"  : "genhtml -o docs/coverage/node/html --config-file .lcovrc docs/coverage/node/lcov.info",
+		"devDoc"      : "rm -fr docs/jsdoc/* && jsdoc lib/*.js test/*.js -d docs/jsdoc",
+		"devUpdate"   : "npm run testReport && npm run devGenhtml && npm run devDoc",
+		"devCoveralls": "coveralls < docs/coverage/node/lcov.info"
+	},
+	"keywords": ["visualcrossing", "weather-api"],
+	"author": {
+		"name" : "Essam A. El-Sherif",
+		"email": "esm.elsh@gmail.com",
+		"url"  : "https://essamatefelsherif.github.io/whoami"
+	},
+	"homepage": "https://github.com/essamatefelsherif/weather-visualcrossing#readme",
+	"repository": {
+		"type": "git",
+		"url" : "git+https://github.com/essamatefelsherif/weather-visualcrossing.git"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"coveralls-next": "^4.2.1",
+		"jsdoc": "^4.0.4"
+	}
+}

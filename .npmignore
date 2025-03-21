@@ -1,0 +1,8 @@
+# folders
+docs
+tmp
+
+# files
+.lcovrc
+.coveralls.yml
+.api-key

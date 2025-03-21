@@ -1,0 +1,32 @@
+# https://github.com/essamatefelsherif/weather-visualcrossing
+
+# logs
+log*
+*.log*
+**/log*
+
+# node modules
+node_modules
+package-lock.json
+
+# Optional npm cache directory
+.npm
+
+# Output of 'npm pack'
+*.tgz
+
+# dotenv environment variable files
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# other folders
+tmp/
+
+# coveralls config
+.coveralls.yml
+
+# Visual Crossing API key
+.api-key
