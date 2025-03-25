@@ -31,13 +31,13 @@
             <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">95</td>
-            <td class="headerCovTableEntry">95</td>
+            <td class="headerCovTableEntry">55</td>
+            <td class="headerCovTableEntry">55</td>
             <td class="headerCovTableEntryHi">100.0 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2025-03-21 22:24:32</td>
+            <td class="headerValue">2025-03-25 04:04:09</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">5</td>
@@ -115,55 +115,15 @@
 <a name="44"><span class="lineNum">      44 </span>                :<span class="lineCov">          2 :  * @return {Object} - A sub-Object containing only the specified keys.</span></a>
 <a name="45"><span class="lineNum">      45 </span>                :<span class="lineCov">          2 :  * @desc   Extract a sub-Object from the original Object with keys specified in keysList.</span></a>
 <a name="46"><span class="lineNum">      46 </span>                :<span class="lineCov">          2 :  */</span></a>
-<a name="47"><span class="lineNum">      47 </span>           [<span class="branchCov" title="Branch 0 was taken 31 times"> + </span>]:<span class="lineCov">          2 : export function extractSubobjectByKeys(originalDict, keysList){</span></a>
-<a name="48"><span class="lineNum">      48 </span>                :<span class="lineCov">         31 :         const subDict = {};</span></a>
-<a name="49"><span class="lineNum">      49 </span>           [<span class="branchCov" title="Branch 0 was taken 36 times"> + </span>]:<span class="lineCov">         31 :         keysList.forEach((key) =&gt; {</span></a>
-<a name="50"><span class="lineNum">      50 </span>                :<span class="lineCov">         36 :                 if(key in originalDict){</span></a>
-<a name="51"><span class="lineNum">      51 </span>                :<span class="lineCov">         36 :                         subDict[key] = originalDict[key];</span></a>
-<a name="52"><span class="lineNum">      52 </span>                :<span class="lineCov">         36 :                 }</span></a>
-<a name="53"><span class="lineNum">      53 </span>                :<span class="lineCov">         31 :         });</span></a>
-<a name="54"><span class="lineNum">      54 </span>                :<span class="lineCov">         31 :         return subDict;</span></a>
-<a name="55"><span class="lineNum">      55 </span>                :<span class="lineCov">         31 : }</span></a>
-<a name="56"><span class="lineNum">      56 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="57"><span class="lineNum">      57 </span>                :<span class="lineCov">          2 : /*</span></a>
-<a name="58"><span class="lineNum">      58 </span>                :<span class="lineCov">          2 : // Test cases</span></a>
-<a name="59"><span class="lineNum">      59 </span>                :<span class="lineCov">          2 : if (require.main === module) {</span></a>
-<a name="60"><span class="lineNum">      60 </span>                :<span class="lineCov">          2 :         const originalDict = { name: 'Alice', age: 30, location: 'New York', email: 'alice@example.com' };</span></a>
-<a name="61"><span class="lineNum">      61 </span>                :<span class="lineCov">          2 :         const updatesDict = { name: 'Alice Smith', age: 31, location: 'Los Angeles', email: 'alice.smith@example.com' };</span></a>
-<a name="62"><span class="lineNum">      62 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="63"><span class="lineNum">      63 </span>                :<span class="lineCov">          2 :         const keysToExclude = ['email'];</span></a>
-<a name="64"><span class="lineNum">      64 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="65"><span class="lineNum">      65 </span>                :<span class="lineCov">          2 :         // Case: Test with a Object</span></a>
-<a name="66"><span class="lineNum">      66 </span>                :<span class="lineCov">          2 :         updateObject(originalDict, updatesDict, keysToExclude);</span></a>
-<a name="67"><span class="lineNum">      67 </span>                :<span class="lineCov">          2 :         console.log(originalDict);</span></a>
-<a name="68"><span class="lineNum">      68 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="69"><span class="lineNum">      69 </span>                :<span class="lineCov">          2 :         const allowedKeys = ['name', 'age', 'email'];</span></a>
-<a name="70"><span class="lineNum">      70 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="71"><span class="lineNum">      71 </span>                :<span class="lineCov">          2 :         // Case 1: Test with a valid Object</span></a>
-<a name="72"><span class="lineNum">      72 </span>                :<span class="lineCov">          2 :         const validDict = { name: 'Alice', age: 30 };</span></a>
-<a name="73"><span class="lineNum">      73 </span>                :<span class="lineCov">          2 :         console.log(isValidObject(validDict, allowedKeys));  // Output: true</span></a>
-<a name="74"><span class="lineNum">      74 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="75"><span class="lineNum">      75 </span>                :<span class="lineCov">          2 :         // Case 2: Test with an invalid Object (extra key)</span></a>
-<a name="76"><span class="lineNum">      76 </span>                :<span class="lineCov">          2 :         const invalidDict = { name: 'Bob', age: 25, location: 'City' };</span></a>
-<a name="77"><span class="lineNum">      77 </span>                :<span class="lineCov">          2 :         console.log(isValidObject(invalidDict, allowedKeys));  // Output: false</span></a>
-<a name="78"><span class="lineNum">      78 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="79"><span class="lineNum">      79 </span>                :<span class="lineCov">          2 :         // Case 3: Test with a non-Object variable</span></a>
-<a name="80"><span class="lineNum">      80 </span>                :<span class="lineCov">          2 :         const notADict = ['name', 'Alice'];</span></a>
-<a name="81"><span class="lineNum">      81 </span>                :<span class="lineCov">          2 :         console.log(isValidObject(notADict, allowedKeys));  // Output: false</span></a>
-<a name="82"><span class="lineNum">      82 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="83"><span class="lineNum">      83 </span>                :<span class="lineCov">          2 :         const originalDict2 = {</span></a>
-<a name="84"><span class="lineNum">      84 </span>                :<span class="lineCov">          2 :                 name: 'John Doe',</span></a>
-<a name="85"><span class="lineNum">      85 </span>                :<span class="lineCov">          2 :                 age: 30,</span></a>
-<a name="86"><span class="lineNum">      86 </span>                :<span class="lineCov">          2 :                 email: 'johndoe@example.com',</span></a>
-<a name="87"><span class="lineNum">      87 </span>                :<span class="lineCov">          2 :                 country: 'USA'</span></a>
-<a name="88"><span class="lineNum">      88 </span>                :<span class="lineCov">          2 :         };</span></a>
-<a name="89"><span class="lineNum">      89 </span>                :<span class="lineCov">          2 :         const keysList = ['name', 'email'];</span></a>
-<a name="90"><span class="lineNum">      90 </span>                :<span class="lineCov">          2 : </span></a>
-<a name="91"><span class="lineNum">      91 </span>                :<span class="lineCov">          2 :         // Extracting the sub-Object</span></a>
-<a name="92"><span class="lineNum">      92 </span>                :<span class="lineCov">          2 :         const subDict = extractSubobjectByKeys(originalDict2, keysList);</span></a>
-<a name="93"><span class="lineNum">      93 </span>                :<span class="lineCov">          2 :         console.log(subDict);  // Output will be { name: 'John Doe', email: 'johndoe@example.com' }</span></a>
-<a name="94"><span class="lineNum">      94 </span>                :<span class="lineCov">          2 : }</span></a>
-<a name="95"><span class="lineNum">      95 </span>                :<span class="lineCov">          2 : */</span></a>
+<a name="47"><span class="lineNum">      47 </span>           [<span class="branchCov" title="Branch 0 was taken 32 times"> + </span>]:<span class="lineCov">          2 : export function extractSubobjectByKeys(originalDict, keysList){</span></a>
+<a name="48"><span class="lineNum">      48 </span>                :<span class="lineCov">         32 :         const subDict = {};</span></a>
+<a name="49"><span class="lineNum">      49 </span>           [<span class="branchCov" title="Branch 0 was taken 37 times"> + </span>]:<span class="lineCov">         32 :         keysList.forEach((key) =&gt; {</span></a>
+<a name="50"><span class="lineNum">      50 </span>                :<span class="lineCov">         37 :                 if(key in originalDict){</span></a>
+<a name="51"><span class="lineNum">      51 </span>                :<span class="lineCov">         37 :                         subDict[key] = originalDict[key];</span></a>
+<a name="52"><span class="lineNum">      52 </span>                :<span class="lineCov">         37 :                 }</span></a>
+<a name="53"><span class="lineNum">      53 </span>                :<span class="lineCov">         32 :         });</span></a>
+<a name="54"><span class="lineNum">      54 </span>                :<span class="lineCov">         32 :         return subDict;</span></a>
+<a name="55"><span class="lineNum">      55 </span>                :<span class="lineCov">         32 : }</span></a>
 </pre>
       </td>
     </tr>

@@ -67,7 +67,17 @@ function loadTestData(){
 	// TEST ### - Function updateObject()...test#1
 	testData = {};
 
-	testData.method = updateObjectTest1;
+	testData.method = async () => {
+
+		const originalDict = { name: 'Alice', age: 30, location: 'New York', email: 'alice@example.com' };
+		const updatesDict  = { name: 'Alice Smith', age: 31, location: 'Los Angeles', email: 'alice.smith@example.com' };
+
+		const keysToExclude = ['email'];
+		const expectDict = { name: 'Alice Smith', age: 31, location: 'Los Angeles', email: 'alice@example.com' };
+
+		updateObject(originalDict, updatesDict, keysToExclude);
+		assert.deepStrictEqual(originalDict, expectDict);
+	};
 	testData.desc = 'Function updateObject()...test#1';
 
 	testData.skip = false;
@@ -76,7 +86,13 @@ function loadTestData(){
 	// TEST ### - Function isValidObject()...test#1
 	testData = {};
 
-	testData.method = isValidObjectTest1;
+	testData.method = async () => {
+
+		const validDict = { name: 'Alice', age: 30 };
+		const allowedKeys = ['name', 'age', 'email'];
+
+		assert(isValidObject(validDict, allowedKeys));
+	};
 	testData.desc = 'Function isValidObject()...test#1';
 
 	testData.skip = false;
@@ -85,7 +101,13 @@ function loadTestData(){
 	// TEST ### - Function isValidObject()...test#2
 	testData = {};
 
-	testData.method = isValidObjectTest2;
+	testData.method = async () => {
+
+		const invalidDict = { name: 'Bob', age: 25, location: 'City' };
+		const allowedKeys = ['name', 'age', 'email'];
+
+		assert(!isValidObject(invalidDict, allowedKeys));
+	};
 	testData.desc = 'Function isValidObject()...test#2';
 
 	testData.skip = false;
@@ -94,7 +116,13 @@ function loadTestData(){
 	// TEST ### - Function isValidObject()...test#3
 	testData = {};
 
-	testData.method = isValidObjectTest3;
+	testData.method = async () => {
+
+		const notDict = ['name', 'Alice'];
+		const allowedKeys = ['name', 'age', 'email'];
+
+		assert(!isValidObject(notDict, allowedKeys));
+	};
 	testData.desc = 'Function isValidObject()...test#3';
 
 	testData.skip = false;
@@ -103,7 +131,20 @@ function loadTestData(){
 	// TEST ### - Function extractSubobjectByKeys()...test#1
 	testData = {};
 
-	testData.method = extractSubobjectByKeysTest1;
+	testData.method = async () => {
+
+		const originalDict = {
+			name: 'John Doe',
+			age: 30,
+			email: 'johndoe@example.com',
+			country: 'USA'
+		};
+		const keysList = ['name', 'email'];
+
+		const subDict = extractSubobjectByKeys(originalDict, keysList);
+
+		assert.deepStrictEqual(subDict, { name: 'John Doe', email: 'johndoe@example.com' });
+	};
 	testData.desc = 'Function extractSubobjectByKeys()...test#1';
 
 	testData.skip = false;
@@ -120,8 +161,8 @@ function nodeRunner(runner){
 	for(let [suiteDesc, suiteTests] of suites){
 		runner.suite(suiteDesc, () => {
 			for(let cmdObj of suiteTests){
-				runner.test(cmdObj.desc, {skip: cmdObj.skip}, () => {
-					makeTest(cmdObj);
+				runner.test(cmdObj.desc, {skip: cmdObj.skip}, async () => {
+					await makeTest(cmdObj);
 				});
 			}
 		});
@@ -150,8 +191,11 @@ function defRunner(){
 	cmdOptions.verbose && console.error();
 	for(let [suiteDesc, suiteTests] of suites)
 		for(let cmdObj of suiteTests)
-			if(!cmdObj.skip)
-				makeTest(cmdObj);
+			if(!cmdObj.skip){
+				(async() => {
+					await makeTest(cmdObj);
+				})();
+			}
 
 	cmdOptions.verbose && console.log();
 }
@@ -159,10 +203,11 @@ function defRunner(){
 
 /**
  * @func  makeTest
+ * async
  * @param {object} obj - The test data object.
  * @desc  Carry out a single test.
  */
-function makeTest(obj){
+async function makeTest(obj){
 
 	const testID   = testCount++;
 
@@ -173,11 +218,11 @@ function makeTest(obj){
 	cmdOptions.verbose && console.error(preMsg);
 
 	if(!cmdOptions.verbose){
-		obj.method();
+		await obj.method();
 	}	/* node:coverage disable */
 	else{
 		try{
-			obj.method();
+			await obj.method();
 			passCount++;
 
 			postMsg += `Success  ... ${obj.desc}`;
@@ -190,75 +235,4 @@ function makeTest(obj){
 			cmdOptions.verbose && console.error(postMsg);
 		}
 	}	/* node:coverage enable */
-}
-
-/**
- * @func
- * @desc Function updateObject()...test#1.
- */
-function updateObjectTest1(){
-
-	const originalDict = { name: 'Alice', age: 30, location: 'New York', email: 'alice@example.com' };
-	const updatesDict  = { name: 'Alice Smith', age: 31, location: 'Los Angeles', email: 'alice.smith@example.com' };
-
-	const keysToExclude = ['email'];
-	const expectDict = { name: 'Alice Smith', age: 31, location: 'Los Angeles', email: 'alice@example.com' };
-
-	updateObject(originalDict, updatesDict, keysToExclude);
-	assert.deepStrictEqual(originalDict, expectDict);
-}
-
-/**
- * @func
- * @desc Function isValidObject()...test#1.
- */
-function isValidObjectTest1(){
-
-	const validDict = { name: 'Alice', age: 30 };
-	const allowedKeys = ['name', 'age', 'email'];
-
-	assert(isValidObject(validDict, allowedKeys));
-}
-
-/**
- * @func
- * @desc Function isValidObject()...test#2.
- */
-function isValidObjectTest2(){
-
-	const invalidDict = { name: 'Bob', age: 25, location: 'City' };
-	const allowedKeys = ['name', 'age', 'email'];
-
-	assert(!isValidObject(invalidDict, allowedKeys));
-}
-
-/**
- * @func
- * @desc Function isValidObject()...test#3.
- */
-function isValidObjectTest3(){
-
-	const notDict = ['name', 'Alice'];
-	const allowedKeys = ['name', 'age', 'email'];
-
-	assert(!isValidObject(notDict, allowedKeys));
-}
-
-/**
- * @func
- * @desc Function extractSubobjectByKeys()...test#1.
- */
-function extractSubobjectByKeysTest1(){
-
-	const originalDict = {
-		name: 'John Doe',
-		age: 30,
-		email: 'johndoe@example.com',
-		country: 'USA'
-	};
-	const keysList = ['name', 'email'];
-
-	const subDict = extractSubobjectByKeys(originalDict, keysList);
-
-	assert.deepStrictEqual(subDict, { name: 'John Doe', email: 'johndoe@example.com' });
 }

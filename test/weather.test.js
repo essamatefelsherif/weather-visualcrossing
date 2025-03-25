@@ -92,7 +92,7 @@ function loadTestData(){
 	suiteDesc = 'Test Weather Static Methods';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Static method Weather.filterItemByDatetimeVal()...test#1
+	// TEST #01 - Static method Weather.filterItemByDatetimeVal()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -127,19 +127,21 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Static method Weather.setItemByDatetimeVal()...test#1
+	// TEST #02 - Static method Weather.setItemByDatetimeVal()...test#1
 	testData = {};
 
 	testData.method = async () => {
 		let sample = JSON.parse(sampleActive);
 
 		let datetime1 = sample.days[0].datetime;
-		let res1 = Weather.filterItemByDatetimeVal(sample.days, datetime1);
-
 		Weather.setItemByDatetimeVal(sample.days, datetime1, { datetimeISO: new Date(datetime1).toISOString() });
 
-		assert.strictEqual(typeof res1, 'object');
-		assert.strictEqual(res1.datetimeISO, new Date(datetime1).toISOString());
+		assert.strictEqual(sample.days[0].datetimeISO, new Date(datetime1).toISOString());
+
+		let datetime2 = 0;
+		Weather.setItemByDatetimeVal(sample.days, datetime2, { datetimeGMT: new Date(datetime1).toGMTString() });
+
+		assert.strictEqual(sample.days[0].datetimeGMT, new Date(datetime1).toGMTString());
 
 		assert.throws(
 			() => {
@@ -168,19 +170,19 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Static method Weather.updateItemByDatetimeVal()...test#1
+	// TEST #03 - Static method Weather.updateItemByDatetimeVal()...test#1
 	testData = {};
 
 	testData.method = async () => {
 		let sample = JSON.parse(sampleActive);
 
 		let datetime1 = sample.days[0].datetime;
-		let res1 = Weather.filterItemByDatetimeVal(sample.days, datetime1);
-
 		Weather.updateItemByDatetimeVal(sample.days, datetime1, { datetimeISO: new Date(datetime1).toISOString() });
 
-		assert.strictEqual(typeof res1, 'object');
-		assert.strictEqual(res1.datetimeISO, new Date(datetime1).toISOString());
+		let datetime2 = 0;
+		Weather.updateItemByDatetimeVal(sample.days, datetime2, { datetimeGMT: new Date(datetime1).toGMTString() });
+
+		assert.strictEqual(sample.days[0].datetimeGMT, new Date(datetime1).toGMTString());
 
 		assert.throws(
 			() => {
@@ -209,7 +211,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Static method Weather.validateParamDate()...test#1
+	// TEST #04 - Static method Weather.validateParamDate()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -292,7 +294,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Static method Weather.validateParamUnitGroup()...test#1
+	// TEST #05 - Static method Weather.validateParamUnitGroup()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -329,7 +331,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Static method Weather.validateParamInclude()...test#1
+	// TEST #06 - Static method Weather.validateParamInclude()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -366,7 +368,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Static method Weather.validateParamElements()...test#1
+	// TEST #07 - Static method Weather.validateParamElements()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -407,7 +409,7 @@ function loadTestData(){
 	suiteDesc = 'Test Weather Instance Method fetchWeatherData';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Method fetchWeatherData()...test#1
+	// TEST #01 - Method fetchWeatherData()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -426,7 +428,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method fetchWeatherData()...test#2
+	// TEST #02 - Method fetchWeatherData()...test#2
 	testData = {};
 
 	testData.method = async () => {
@@ -445,7 +447,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method fetchWeatherData()...test#3
+	// TEST #03 - Method fetchWeatherData()...test#3
 	testData = {};
 
 	testData.method = async () => {
@@ -460,10 +462,10 @@ function loadTestData(){
 	};
 	testData.desc = 'Method fetchWeatherData()...test#3';
 
-	testData.skip = false;
+	testData.skip = !key; // skip test if no key
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method fetchWeatherData()...test#4
+	// TEST #04 - Method fetchWeatherData()...test#4
 	testData = {};
 
 	testData.method = async () => {
@@ -482,10 +484,10 @@ function loadTestData(){
 	};
 	testData.desc = 'Method fetchWeatherData()...test#4';
 
-	testData.skip = false;
+	testData.skip = !key; // skip test if no key
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method fetchWeatherData()...test#5
+	// TEST #05 - Method fetchWeatherData()...test#5
 	testData = {};
 
 	testData.method = async () => {
@@ -508,14 +510,74 @@ function loadTestData(){
 	};
 	testData.desc = 'Method fetchWeatherData()...test#5';
 
-	testData.skip = !(key); // skip test if no key
+	testData.skip = !key; // skip test if no key
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #06 - Method fetchWeatherData()...test#6
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+		let fetch = globalThis.fetch;
+		globalThis.fetch = null;
+
+		let weather = new Weather(key);
+		let actual = await weather.fetchWeatherData(sample.address, sample.days[0].datetime, undefined, undefined, 'days');
+
+		[
+			"latitude",
+			"longitude",
+			"resolvedAddress",
+			"address",
+			"timezone",
+			"tzoffset",
+
+		].forEach(key => {
+			assert.strictEqual(actual[key], sample[key])
+		});
+
+		globalThis.fetch = fetch;
+	};
+	testData.desc = 'Method fetchWeatherData()...test#6';
+
+	testData.skip = !key; // skip test if no key
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #07 - Method fetchWeatherData()...test#7
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+		let fetch = globalThis.fetch;
+		globalThis.fetch = null;
+
+		let weather = new Weather(key);
+		let actual = await weather.fetchWeatherData(sample.address, undefined, undefined, undefined, 'days');
+
+		[
+			"latitude",
+			"longitude",
+			"resolvedAddress",
+			"address",
+			"timezone",
+			"tzoffset",
+
+		].forEach(key => {
+			assert.strictEqual(actual[key], sample[key])
+		});
+
+		globalThis.fetch = fetch;
+	};
+	testData.desc = 'Method fetchWeatherData()...test#7';
+
+	testData.skip = !key; // skip test if no key
 	suites.get(suiteDesc).push(testData);
 
 	// TEST SUITE #3 - Test Weather Instance Methods - Data elements
 	suiteDesc = 'Test Weather Instance Methods - Data elements';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Method [get/set]WeatherData()...test#1
+	// TEST #01 - Method [get/set]WeatherData()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -538,7 +600,22 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]WeatherDailyData()...test#1
+	// TEST #02 - Method [get/clear]WeatherData()...test#1
+	testData = {};
+
+	testData.method = async () => {
+
+		let weather = new Weather();
+		weather.clearWeatherData();
+
+		assert.deepStrictEqual(weather.getWeatherData(), {});
+	};
+	testData.desc = 'Method [get/clear]WeatherData()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #03 - Method [get/set]WeatherDailyData()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -557,13 +634,17 @@ function loadTestData(){
 				assert.strictEqual(res[i][p], sample.days[i][p]);
 
 		assert(weather.getWeatherDailyData('invalid arg') === null);
+
+		let arr = [];
+		weather.setWeatherDailyData(arr);
+		assert(weather.getWeatherDailyData() === arr);
 	};
 	testData.desc = 'Method [get/set]WeatherDailyData()...test#1';
 
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method getWeatherHourlyData()...test#1
+	// TEST #04 - Method getWeatherHourlyData()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -591,7 +672,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method getDataOnDay()...test#1
+	// TEST #05 - Method getDataOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -619,7 +700,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]DataOnDay()...test#1
+	// TEST #06 - Method [get/set]DataOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -653,7 +734,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method getHourlyDataOnDay()...test#1
+	// TEST #07 - Method getHourlyDataOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -690,7 +771,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]HourlyDataOnDay()...test#1
+	// TEST #08 - Method [get/set]HourlyDataOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -699,8 +780,16 @@ function loadTestData(){
 		let weather = new Weather();
 		weather.setWeatherData(sample);
 
-		let datetime = sample.days[0].datetime;
-		let testObj = {datetime: 'NA'};
+		let datetime, testObj;
+
+		datetime = sample.days[0].datetime;
+		testObj = {datetime: 'NA#1'};
+		weather.setHourlyDataOnDay(datetime, testObj);
+
+		assert.deepStrictEqual(weather.getHourlyDataOnDay(datetime), testObj);
+
+		datetime = 0;
+		testObj = {datetime: 'NA#2'};
 		weather.setHourlyDataOnDay(datetime, testObj);
 
 		assert.deepStrictEqual(weather.getHourlyDataOnDay(datetime), testObj);
@@ -721,7 +810,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set/update]DataAtDatetime()...test#1
+	// TEST #09 - Method [get/set/update]DataAtDatetime()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -738,6 +827,8 @@ function loadTestData(){
 		testObj = {temp: 333};
 		weather.updateDataAtDatetime(datetime, '00:00:00', testObj);
 		assert.strictEqual(weather.getDataAtDatetime(datetime, '00:00:00').temp, testObj.temp);
+
+		assert.deepStrictEqual(weather.getDataAtDatetime(datetime, '00:00:00', ['temp']), testObj);
 
 		assert.throws(
 			() => {
@@ -774,7 +865,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]DatetimeEpochAtDatetime()...test#1
+	// TEST #10 - Method [get/set]DatetimeEpochAtDatetime()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -834,7 +925,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method getDailyDatetimes()...test#1
+	// TEST #11 - Method getDailyDatetimes()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -850,7 +941,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method getHourlyDatetimes()...test#1
+	// TEST #12 - Method getHourlyDatetimes()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -871,7 +962,7 @@ function loadTestData(){
 	suiteDesc = 'Test Weather Instance Methods - Location elements';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Method [get/set]Latitude()...test#1
+	// TEST #01 - Method [get/set]Latitude()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -899,7 +990,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]Longitude()...test#1
+	// TEST #02 - Method [get/set]Longitude()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -927,7 +1018,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]ResolvedAddress()...test#1
+	// TEST #03 - Method [get/set]ResolvedAddress()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -945,7 +1036,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]Address()...test#1
+	// TEST #04 - Method [get/set]Address()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -963,7 +1054,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]Timezone()...test#1
+	// TEST #05 - Method [get/set]Timezone()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -981,7 +1072,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]Tzoffset()...test#1
+	// TEST #06 - Method [get/set]Tzoffset()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1003,7 +1094,7 @@ function loadTestData(){
 	suiteDesc = 'Test Weather Instance Methods - Request elements';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Method [get/set]QueryCost()...test#1
+	// TEST #01 - Method [get/set]QueryCost()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1027,7 +1118,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]Stations()...test#1
+	// TEST #02 - Method [get/set]Stations()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1055,7 +1146,7 @@ function loadTestData(){
 	suiteDesc = 'Test Weather Instance Methods - Core Weather elements on day';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Method [get/set]TempOnDay()...test#1
+	// TEST #01 - Method [get/set]TempOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1094,7 +1185,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]TempmaxOnDay()...test#1
+	// TEST #02 - Method [get/set]TempmaxOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1133,7 +1224,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]TempminOnDay()...test#1
+	// TEST #03 - Method [get/set]TempminOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1172,7 +1263,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]FeelslikeOnDay()...test#1
+	// TEST #04 - Method [get/set]FeelslikeOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1211,7 +1302,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]FeelslikemaxOnDay()...test#1
+	// TEST #05 - Method [get/set]FeelslikemaxOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1250,7 +1341,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]FeelslikeminOnDay()...test#1
+	// TEST #06 - Method [get/set]FeelslikeminOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1289,7 +1380,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]DewOnDay()...test#1
+	// TEST #07 - Method [get/set]DewOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1328,7 +1419,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]HumidityOnDay()...test#1
+	// TEST #08 - Method [get/set]HumidityOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1367,7 +1458,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]PrecipOnDay()...test#1
+	// TEST #09 - Method [get/set]PrecipOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1406,7 +1497,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]PrecipprobOnDay()...test#1
+	// TEST #10 - Method [get/set]PrecipprobOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1445,7 +1536,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]PrecipcoverOnDay()...test#1
+	// TEST #11 - Method [get/set]PrecipcoverOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1484,7 +1575,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]PreciptypeOnDay()...test#1
+	// TEST #12 - Method [get/set]PreciptypeOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1523,7 +1614,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SnowOnDay()...test#1
+	// TEST #13 - Method [get/set]SnowOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1562,7 +1653,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SnowdepthOnDay()...test#1
+	// TEST #14 - Method [get/set]SnowdepthOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1601,7 +1692,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]WindgustOnDay()...test#1
+	// TEST #15 - Method [get/set]WindgustOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1640,7 +1731,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]WindspeedOnDay()...test#1
+	// TEST #16 - Method [get/set]WindspeedOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1679,7 +1770,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]WinddirOnDay()...test#1
+	// TEST #17 - Method [get/set]WinddirOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1718,7 +1809,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]PressureOnDay()...test#1
+	// TEST #18 - Method [get/set]PressureOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1757,7 +1848,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]CloudcoverOnDay()...test#1
+	// TEST #19 - Method [get/set]CloudcoverOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1796,7 +1887,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]VisibilityOnDay()...test#1
+	// TEST #20 - Method [get/set]VisibilityOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1835,7 +1926,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SolarradiationOnDay()...test#1
+	// TEST #21 - Method [get/set]SolarradiationOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1874,7 +1965,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SolarenergyOnDay()...test#1
+	// TEST #22 - Method [get/set]SolarenergyOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1913,7 +2004,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]UvindexOnDay()...test#1
+	// TEST #23 - Method [get/set]UvindexOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1952,7 +2043,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SevereriskOnDay()...test#1
+	// TEST #24 - Method [get/set]SevereriskOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -1991,7 +2082,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]StationsOnDay()...test#1
+	// TEST #25 - Method [get/set]StationsOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -2030,1142 +2121,11 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST SUITE #7 - Test Weather Instance Methods - Core Weather elements at datetime
-	suiteDesc = 'Test Weather Instance Methods - Core Weather elements at datetime';
-	suites.set(suiteDesc, []);
-
-	// TEST ### - Method [get/set]TempAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testTemp;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testTemp = 0;
-		weather.setTempAtDatetime(testDay, testTime, testTemp);
-		assert.strictEqual(weather.getTempAtDatetime(testDay, testTime), testTemp);
-
-		testDay = 0;
-		testTime = 0;
-		testTemp = 10;
-		weather.setTempAtDatetime(testDay, testTime, testTemp);
-		assert.strictEqual(weather.getTempAtDatetime(testDay, testTime), testTemp);
-
-		assert.strictEqual(weather.getTempAtDatetime('2025-03-07', '24:00:00'), null);
-		assert.strictEqual(weather.getTempAtDatetime('1970-01-01', '00:00:00'), null);
-		assert.throws(
-			() => {
-				weather.setTempAtDatetime(0, false, testTemp);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setTempAtDatetime(false, false, testTemp);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]TempAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]FeelsLikeAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testFeelsLike;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testFeelsLike = 0;
-		weather.setFeelsLikeAtDatetime(testDay, testTime, testFeelsLike);
-		assert.strictEqual(weather.getFeelsLikeAtDatetime(testDay, testTime), testFeelsLike);
-
-		testDay = 0;
-		testTime = 0;
-		testFeelsLike = 10;
-		weather.setFeelsLikeAtDatetime(testDay, testTime, testFeelsLike);
-		assert.strictEqual(weather.getFeelsLikeAtDatetime(testDay, testTime), testFeelsLike);
-
-		assert.strictEqual(weather.getFeelsLikeAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getFeelsLikeAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setFeelsLikeAtDatetime(0, false, testFeelsLike);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setFeelsLikeAtDatetime(false, false, testFeelsLike);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]FeelsLikeAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]HumidityAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testHumidity;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testHumidity = 0;
-		weather.setHumidityAtDatetime(testDay, testTime, testHumidity);
-		assert.strictEqual(weather.getHumidityAtDatetime(testDay, testTime), testHumidity);
-
-		testDay = 0;
-		testTime = 0;
-		testHumidity = 10;
-		weather.setHumidityAtDatetime(testDay, testTime, testHumidity);
-		assert.strictEqual(weather.getHumidityAtDatetime(testDay, testTime), testHumidity);
-
-		assert.strictEqual(weather.getHumidityAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getHumidityAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setHumidityAtDatetime(0, false, testHumidity);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setHumidityAtDatetime(false, false, testHumidity);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]HumidityAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]DewAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testDew;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testDew = 0;
-		weather.setDewAtDatetime(testDay, testTime, testDew);
-		assert.strictEqual(weather.getDewAtDatetime(testDay, testTime), testDew);
-
-		testDay = 0;
-		testTime = 0;
-		testDew = 10;
-		weather.setDewAtDatetime(testDay, testTime, testDew);
-		assert.strictEqual(weather.getDewAtDatetime(testDay, testTime), testDew);
-
-		assert.strictEqual(weather.getDewAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getDewAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setDewAtDatetime(0, false, testDew);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setDewAtDatetime(false, false, testDew);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]DewAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]PrecipAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testPrecip;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testPrecip = 0;
-		weather.setPrecipAtDatetime(testDay, testTime, testPrecip);
-		assert.strictEqual(weather.getPrecipAtDatetime(testDay, testTime), testPrecip);
-
-		testDay = 0;
-		testTime = 0;
-		testPrecip = 10;
-		weather.setPrecipAtDatetime(testDay, testTime, testPrecip);
-		assert.strictEqual(weather.getPrecipAtDatetime(testDay, testTime), testPrecip);
-
-		assert.strictEqual(weather.getPrecipAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getPrecipAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setPrecipAtDatetime(0, false, testPrecip);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setPrecipAtDatetime(false, false, testPrecip);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]PrecipAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]PrecipProbAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testPrecipProb;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testPrecipProb = 0;
-		weather.setPrecipProbAtDatetime(testDay, testTime, testPrecipProb);
-		assert.strictEqual(weather.getPrecipProbAtDatetime(testDay, testTime), testPrecipProb);
-
-		testDay = 0;
-		testTime = 0;
-		testPrecipProb = 10;
-		weather.setPrecipProbAtDatetime(testDay, testTime, testPrecipProb);
-		assert.strictEqual(weather.getPrecipProbAtDatetime(testDay, testTime), testPrecipProb);
-
-		assert.strictEqual(weather.getPrecipProbAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getPrecipProbAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setPrecipProbAtDatetime(0, false, testPrecipProb);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setPrecipProbAtDatetime(false, false, testPrecipProb);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]PrecipProbAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]SnowAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testSnow;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testSnow = 0;
-		weather.setSnowAtDatetime(testDay, testTime, testSnow);
-		assert.strictEqual(weather.getSnowAtDatetime(testDay, testTime), testSnow);
-
-		testDay = 0;
-		testTime = 0;
-		testSnow = 10;
-		weather.setSnowAtDatetime(testDay, testTime, testSnow);
-		assert.strictEqual(weather.getSnowAtDatetime(testDay, testTime), testSnow);
-
-		assert.strictEqual(weather.getSnowAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getSnowAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setSnowAtDatetime(0, false, testSnow);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setSnowAtDatetime(false, false, testSnow);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]SnowAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]SnowDepthAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testSnowDepth;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testSnowDepth = 0;
-		weather.setSnowDepthAtDatetime(testDay, testTime, testSnowDepth);
-		assert.strictEqual(weather.getSnowDepthAtDatetime(testDay, testTime), testSnowDepth);
-
-		testDay = 0;
-		testTime = 0;
-		testSnowDepth = 10;
-		weather.setSnowDepthAtDatetime(testDay, testTime, testSnowDepth);
-		assert.strictEqual(weather.getSnowDepthAtDatetime(testDay, testTime), testSnowDepth);
-
-		assert.strictEqual(weather.getSnowDepthAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getSnowDepthAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setSnowDepthAtDatetime(0, false, testSnowDepth);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setSnowDepthAtDatetime(false, false, testSnowDepth);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]SnowDepthAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]PreciptypeAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testPreciptype;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testPreciptype = 'type#1';
-		weather.setPreciptypeAtDatetime(testDay, testTime, testPreciptype);
-		assert.strictEqual(weather.getPreciptypeAtDatetime(testDay, testTime), testPreciptype);
-
-		testDay = 0;
-		testTime = 0;
-		testPreciptype = 'type#2';
-		weather.setPreciptypeAtDatetime(testDay, testTime, testPreciptype);
-		assert.strictEqual(weather.getPreciptypeAtDatetime(testDay, testTime), testPreciptype);
-
-		assert.strictEqual(weather.getPreciptypeAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getPreciptypeAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setPreciptypeAtDatetime(0, false, testPreciptype);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setPreciptypeAtDatetime(false, false, testPreciptype);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]PreciptypeAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]WindgustAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testWindgust;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testWindgust = 0;
-		weather.setWindgustAtDatetime(testDay, testTime, testWindgust);
-		assert.strictEqual(weather.getWindgustAtDatetime(testDay, testTime), testWindgust);
-
-		testDay = 0;
-		testTime = 0;
-		testWindgust = 10;
-		weather.setWindgustAtDatetime(testDay, testTime, testWindgust);
-		assert.strictEqual(weather.getWindgustAtDatetime(testDay, testTime), testWindgust);
-
-		assert.strictEqual(weather.getWindgustAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getWindgustAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setWindgustAtDatetime(0, false, testWindgust);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setWindgustAtDatetime(false, false, testWindgust);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]WindgustAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]WindspeedAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testWindspeed;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testWindspeed = 0;
-		weather.setWindspeedAtDatetime(testDay, testTime, testWindspeed);
-		assert.strictEqual(weather.getWindspeedAtDatetime(testDay, testTime), testWindspeed);
-
-		testDay = 0;
-		testTime = 0;
-		testWindspeed = 10;
-		weather.setWindspeedAtDatetime(testDay, testTime, testWindspeed);
-		assert.strictEqual(weather.getWindspeedAtDatetime(testDay, testTime), testWindspeed);
-
-		assert.strictEqual(weather.getWindspeedAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getWindspeedAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setWindspeedAtDatetime(0, false, testWindspeed);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setWindspeedAtDatetime(false, false, testWindspeed);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]WindspeedAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]WinddirAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testWinddir;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testWinddir = 0;
-		weather.setWinddirAtDatetime(testDay, testTime, testWinddir);
-		assert.strictEqual(weather.getWinddirAtDatetime(testDay, testTime), testWinddir);
-
-		testDay = 0;
-		testTime = 0;
-		testWinddir = 10;
-		weather.setWinddirAtDatetime(testDay, testTime, testWinddir);
-		assert.strictEqual(weather.getWinddirAtDatetime(testDay, testTime), testWinddir);
-
-		assert.strictEqual(weather.getWinddirAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getWinddirAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setWinddirAtDatetime(0, false, testWinddir);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setWinddirAtDatetime(false, false, testWinddir);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]WinddirAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]PressureAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testPressure;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testPressure = 0;
-		weather.setPressureAtDatetime(testDay, testTime, testPressure);
-		assert.strictEqual(weather.getPressureAtDatetime(testDay, testTime), testPressure);
-
-		testDay = 0;
-		testTime = 0;
-		testPressure = 10;
-		weather.setPressureAtDatetime(testDay, testTime, testPressure);
-		assert.strictEqual(weather.getPressureAtDatetime(testDay, testTime), testPressure);
-
-		assert.strictEqual(weather.getPressureAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getPressureAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setPressureAtDatetime(0, false, testPressure);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setPressureAtDatetime(false, false, testPressure);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]PressureAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]VisibilityAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testVisibility;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testVisibility = 0;
-		weather.setVisibilityAtDatetime(testDay, testTime, testVisibility);
-		assert.strictEqual(weather.getVisibilityAtDatetime(testDay, testTime), testVisibility);
-
-		testDay = 0;
-		testTime = 0;
-		testVisibility = 10;
-		weather.setVisibilityAtDatetime(testDay, testTime, testVisibility);
-		assert.strictEqual(weather.getVisibilityAtDatetime(testDay, testTime), testVisibility);
-
-		assert.strictEqual(weather.getVisibilityAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getVisibilityAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setVisibilityAtDatetime(0, false, testVisibility);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setVisibilityAtDatetime(false, false, testVisibility);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]VisibilityAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]CloudcoverAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testCloudcover;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testCloudcover = 0;
-		weather.setCloudcoverAtDatetime(testDay, testTime, testCloudcover);
-		assert.strictEqual(weather.getCloudcoverAtDatetime(testDay, testTime), testCloudcover);
-
-		testDay = 0;
-		testTime = 0;
-		testCloudcover = 10;
-		weather.setCloudcoverAtDatetime(testDay, testTime, testCloudcover);
-		assert.strictEqual(weather.getCloudcoverAtDatetime(testDay, testTime), testCloudcover);
-
-		assert.strictEqual(weather.getCloudcoverAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getCloudcoverAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setCloudcoverAtDatetime(0, false, testCloudcover);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setCloudcoverAtDatetime(false, false, testCloudcover);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]CloudcoverAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]SolarradiationAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testSolarradiation;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testSolarradiation = 0;
-		weather.setSolarradiationAtDatetime(testDay, testTime, testSolarradiation);
-		assert.strictEqual(weather.getSolarradiationAtDatetime(testDay, testTime), testSolarradiation);
-
-		testDay = 0;
-		testTime = 0;
-		testSolarradiation = 10;
-		weather.setSolarradiationAtDatetime(testDay, testTime, testSolarradiation);
-		assert.strictEqual(weather.getSolarradiationAtDatetime(testDay, testTime), testSolarradiation);
-
-		assert.strictEqual(weather.getSolarradiationAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getSolarradiationAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setSolarradiationAtDatetime(0, false, testSolarradiation);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setSolarradiationAtDatetime(false, false, testSolarradiation);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]SolarradiationAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]SolarenergyAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testSolarenergy;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testSolarenergy = 0;
-		weather.setSolarenergyAtDatetime(testDay, testTime, testSolarenergy);
-		assert.strictEqual(weather.getSolarenergyAtDatetime(testDay, testTime), testSolarenergy);
-
-		testDay = 0;
-		testTime = 0;
-		testSolarenergy = 10;
-		weather.setSolarenergyAtDatetime(testDay, testTime, testSolarenergy);
-		assert.strictEqual(weather.getSolarenergyAtDatetime(testDay, testTime), testSolarenergy);
-
-		assert.strictEqual(weather.getSolarenergyAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getSolarenergyAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setSolarenergyAtDatetime(0, false, testSolarenergy);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setSolarenergyAtDatetime(false, false, testSolarenergy);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]SolarenergyAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]UvindexAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testUvindex;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testUvindex = 0;
-		weather.setUvindexAtDatetime(testDay, testTime, testUvindex);
-		assert.strictEqual(weather.getUvindexAtDatetime(testDay, testTime), testUvindex);
-
-		testDay = 0;
-		testTime = 0;
-		testUvindex = 10;
-		weather.setUvindexAtDatetime(testDay, testTime, testUvindex);
-		assert.strictEqual(weather.getUvindexAtDatetime(testDay, testTime), testUvindex);
-
-		assert.strictEqual(weather.getUvindexAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getUvindexAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setUvindexAtDatetime(0, false, testUvindex);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setUvindexAtDatetime(false, false, testUvindex);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]UvindexAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]SevereriskAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testSevererisk;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testSevererisk = 0;
-		weather.setSevereriskAtDatetime(testDay, testTime, testSevererisk);
-		assert.strictEqual(weather.getSevereriskAtDatetime(testDay, testTime), testSevererisk);
-
-		testDay = 0;
-		testTime = 0;
-		testSevererisk = 10;
-		weather.setSevereriskAtDatetime(testDay, testTime, testSevererisk);
-		assert.strictEqual(weather.getSevereriskAtDatetime(testDay, testTime), testSevererisk);
-
-		assert.strictEqual(weather.getSevereriskAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getSevereriskAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setSevereriskAtDatetime(0, false, testSevererisk);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setSevereriskAtDatetime(false, false, testSevererisk);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]SevereriskAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]ConditionsAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testConditions;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testConditions = 'cond#1';
-		weather.setConditionsAtDatetime(testDay, testTime, testConditions);
-		assert.strictEqual(weather.getConditionsAtDatetime(testDay, testTime), testConditions);
-
-		testDay = 0;
-		testTime = 0;
-		testConditions = 'cond#2';
-		weather.setConditionsAtDatetime(testDay, testTime, testConditions);
-		assert.strictEqual(weather.getConditionsAtDatetime(testDay, testTime), testConditions);
-
-		assert.strictEqual(weather.getConditionsAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getConditionsAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setConditionsAtDatetime(0, false, testConditions);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setConditionsAtDatetime(false, false, testConditions);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]ConditionsAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]IconAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testIcon;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testIcon = 'icon#1';
-		weather.setIconAtDatetime(testDay, testTime, testIcon);
-		assert.strictEqual(weather.getIconAtDatetime(testDay, testTime), testIcon);
-
-		testDay = 0;
-		testTime = 0;
-		testIcon = 'icon#2';
-		weather.setIconAtDatetime(testDay, testTime, testIcon);
-		assert.strictEqual(weather.getIconAtDatetime(testDay, testTime), testIcon);
-
-		assert.strictEqual(weather.getIconAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getIconAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setIconAtDatetime(0, false, testIcon);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setIconAtDatetime(false, false, testIcon);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]IconAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]StationsAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testStations;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testStations = ['station#1'];
-		weather.setStationsAtDatetime(testDay, testTime, testStations);
-		assert.strictEqual(weather.getStationsAtDatetime(testDay, testTime), testStations);
-
-		testDay = 0;
-		testTime = 0;
-		testStations = ['station#2'];
-		weather.setStationsAtDatetime(testDay, testTime, testStations);
-		assert.strictEqual(weather.getStationsAtDatetime(testDay, testTime), testStations);
-
-		assert.strictEqual(weather.getStationsAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getStationsAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setStationsAtDatetime(0, false, testStations);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setStationsAtDatetime(false, false, testStations);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]StationsAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST ### - Method [get/set]SourceAtDatetime()...test#1
-	testData = {};
-
-	testData.method = async () => {
-		let sample = JSON.parse(sampleActive);
-
-		let weather = new Weather();
-		weather.setWeatherData(sample);
-
-		let testDay, testTime, testSource;
-
-		testDay = sample.days[0].datetime;
-		testTime = sample.days[0].hours[0].datetime;
-		testSource = 'source#1';
-		weather.setSourceAtDatetime(testDay, testTime, testSource);
-		assert.strictEqual(weather.getSourceAtDatetime(testDay, testTime), testSource);
-
-		testDay = 0;
-		testTime = 0;
-		testSource = 'source#2';
-		weather.setSourceAtDatetime(testDay, testTime, testSource);
-		assert.strictEqual(weather.getSourceAtDatetime(testDay, testTime), testSource);
-
-		assert.strictEqual(weather.getSourceAtDatetime(0, '24:00:00'), null);
-		assert.strictEqual(weather.getSourceAtDatetime('1970-01-01', 0), null);
-		assert.throws(
-			() => {
-				weather.setSourceAtDatetime(0, false, testSource);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-		assert.throws(
-			() => {
-				weather.setSourceAtDatetime(false, false, testSource);
-			},
-			(err) => {
-				assert(err instanceof TypeError);
-				return true;
-			}
-		);
-	};
-	testData.desc = 'Method [get/set]SourceAtDatetime()...test#1';
-
-	testData.skip = false;
-	suites.get(suiteDesc).push(testData);
-
-	// TEST SUITE #8 - Test Weather Instance Methods - Astronomy elements
+	// TEST SUITE #7 - Test Weather Instance Methods - Astronomy elements
 	suiteDesc = 'Test Weather Instance Methods - Astronomy elements';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Method [get/set]SunriseOnDay()...test#1
+	// TEST #01 - Method [get/set]SunriseOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3204,7 +2164,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SunriseEpochOnDay()...test#1
+	// TEST #02 - Method [get/set]SunriseEpochOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3243,7 +2203,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SunsetOnDay()...test#1
+	// TEST #03 - Method [get/set]SunsetOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3282,7 +2242,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]SunsetEpochOnDay()...test#1
+	// TEST #04 - Method [get/set]SunsetEpochOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3321,7 +2281,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]MoonphaseOnDay()...test#1
+	// TEST #05 - Method [get/set]MoonphaseOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3360,11 +2320,11 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST SUITE #9 - Test Weather Instance Methods - Description elements
+	// TEST SUITE #8 - Test Weather Instance Methods - Description elements
 	suiteDesc = 'Test Weather Instance Methods - Description elements';
 	suites.set(suiteDesc, []);
 
-	// TEST ### - Method [get/set]ConditionsOnDay()...test#1
+	// TEST #01 - Method [get/set]ConditionsOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3403,7 +2363,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]DescriptionOnDay()...test#1
+	// TEST #02 - Method [get/set]DescriptionOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3442,7 +2402,7 @@ function loadTestData(){
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
 
-	// TEST ### - Method [get/set]IconOnDay()...test#1
+	// TEST #03 - Method [get/set]IconOnDay()...test#1
 	testData = {};
 
 	testData.method = async () => {
@@ -3477,6 +2437,1210 @@ function loadTestData(){
 		);
 	};
 	testData.desc = 'Method [get/set]IconOnDay()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST SUITE #9 - Test Weather Instance Methods - Core Weather elements at datetime
+	suiteDesc = 'Test Weather Instance Methods - Core Weather elements at datetime';
+	suites.set(suiteDesc, []);
+
+	// TEST #01 - Method [get/set]TempAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testTemp;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testTemp = 0;
+		weather.setTempAtDatetime(testDay, testTime, testTemp);
+		assert.strictEqual(weather.getTempAtDatetime(testDay, testTime), testTemp);
+
+		testDay = 0;
+		testTime = 0;
+		testTemp = 10;
+		weather.setTempAtDatetime(testDay, testTime, testTemp);
+		assert.strictEqual(weather.getTempAtDatetime(testDay, testTime), testTemp);
+
+		assert.strictEqual(weather.getTempAtDatetime('2025-03-07', '24:00:00'), null);
+		assert.strictEqual(weather.getTempAtDatetime('1970-01-01', '00:00:00'), null);
+		assert.strictEqual(weather.getTempAtDatetime(0, false), null);
+		assert.strictEqual(weather.getTempAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setTempAtDatetime(0, false, testTemp);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setTempAtDatetime(false, false, testTemp);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]TempAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #02 - Method [get/set]FeelsLikeAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testFeelsLike;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testFeelsLike = 0;
+		weather.setFeelsLikeAtDatetime(testDay, testTime, testFeelsLike);
+		assert.strictEqual(weather.getFeelsLikeAtDatetime(testDay, testTime), testFeelsLike);
+
+		testDay = 0;
+		testTime = 0;
+		testFeelsLike = 10;
+		weather.setFeelsLikeAtDatetime(testDay, testTime, testFeelsLike);
+		assert.strictEqual(weather.getFeelsLikeAtDatetime(testDay, testTime), testFeelsLike);
+
+		assert.strictEqual(weather.getFeelsLikeAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getFeelsLikeAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getFeelsLikeAtDatetime(0, false), null);
+		assert.strictEqual(weather.getFeelsLikeAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setFeelsLikeAtDatetime(0, false, testFeelsLike);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setFeelsLikeAtDatetime(false, false, testFeelsLike);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]FeelsLikeAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #03 - Method [get/set]DewAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testDew;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testDew = 0;
+		weather.setDewAtDatetime(testDay, testTime, testDew);
+		assert.strictEqual(weather.getDewAtDatetime(testDay, testTime), testDew);
+
+		testDay = 0;
+		testTime = 0;
+		testDew = 10;
+		weather.setDewAtDatetime(testDay, testTime, testDew);
+		assert.strictEqual(weather.getDewAtDatetime(testDay, testTime), testDew);
+
+		assert.strictEqual(weather.getDewAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getDewAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getDewAtDatetime(0, false), null);
+		assert.strictEqual(weather.getDewAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setDewAtDatetime(0, false, testDew);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setDewAtDatetime(false, false, testDew);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]DewAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #04 - Method [get/set]HumidityAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testHumidity;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testHumidity = 0;
+		weather.setHumidityAtDatetime(testDay, testTime, testHumidity);
+		assert.strictEqual(weather.getHumidityAtDatetime(testDay, testTime), testHumidity);
+
+		testDay = 0;
+		testTime = 0;
+		testHumidity = 10;
+		weather.setHumidityAtDatetime(testDay, testTime, testHumidity);
+		assert.strictEqual(weather.getHumidityAtDatetime(testDay, testTime), testHumidity);
+
+		assert.strictEqual(weather.getHumidityAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getHumidityAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getHumidityAtDatetime(0, false), null);
+		assert.strictEqual(weather.getHumidityAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setHumidityAtDatetime(0, false, testHumidity);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setHumidityAtDatetime(false, false, testHumidity);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]HumidityAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #05 - Method [get/set]PrecipAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testPrecip;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testPrecip = 0;
+		weather.setPrecipAtDatetime(testDay, testTime, testPrecip);
+		assert.strictEqual(weather.getPrecipAtDatetime(testDay, testTime), testPrecip);
+
+		testDay = 0;
+		testTime = 0;
+		testPrecip = 10;
+		weather.setPrecipAtDatetime(testDay, testTime, testPrecip);
+		assert.strictEqual(weather.getPrecipAtDatetime(testDay, testTime), testPrecip);
+
+		assert.strictEqual(weather.getPrecipAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getPrecipAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getPrecipAtDatetime(0, false), null);
+		assert.strictEqual(weather.getPrecipAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setPrecipAtDatetime(0, false, testPrecip);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setPrecipAtDatetime(false, false, testPrecip);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]PrecipAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #06 - Method [get/set]PrecipProbAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testPrecipProb;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testPrecipProb = 0;
+		weather.setPrecipProbAtDatetime(testDay, testTime, testPrecipProb);
+		assert.strictEqual(weather.getPrecipProbAtDatetime(testDay, testTime), testPrecipProb);
+
+		testDay = 0;
+		testTime = 0;
+		testPrecipProb = 10;
+		weather.setPrecipProbAtDatetime(testDay, testTime, testPrecipProb);
+		assert.strictEqual(weather.getPrecipProbAtDatetime(testDay, testTime), testPrecipProb);
+
+		assert.strictEqual(weather.getPrecipProbAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getPrecipProbAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getPrecipProbAtDatetime(0, false), null);
+		assert.strictEqual(weather.getPrecipProbAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setPrecipProbAtDatetime(0, false, testPrecipProb);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setPrecipProbAtDatetime(false, false, testPrecipProb);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]PrecipProbAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #07 - Method [get/set]PreciptypeAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testPreciptype;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testPreciptype = 'type#1';
+		weather.setPreciptypeAtDatetime(testDay, testTime, testPreciptype);
+		assert.strictEqual(weather.getPreciptypeAtDatetime(testDay, testTime), testPreciptype);
+
+		testDay = 0;
+		testTime = 0;
+		testPreciptype = 'type#2';
+		weather.setPreciptypeAtDatetime(testDay, testTime, testPreciptype);
+		assert.strictEqual(weather.getPreciptypeAtDatetime(testDay, testTime), testPreciptype);
+
+		assert.strictEqual(weather.getPreciptypeAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getPreciptypeAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getPreciptypeAtDatetime(0, false), null);
+		assert.strictEqual(weather.getPreciptypeAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setPreciptypeAtDatetime(0, false, testPreciptype);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setPreciptypeAtDatetime(false, false, testPreciptype);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]PreciptypeAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #08 - Method [get/set]SnowAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testSnow;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testSnow = 0;
+		weather.setSnowAtDatetime(testDay, testTime, testSnow);
+		assert.strictEqual(weather.getSnowAtDatetime(testDay, testTime), testSnow);
+
+		testDay = 0;
+		testTime = 0;
+		testSnow = 10;
+		weather.setSnowAtDatetime(testDay, testTime, testSnow);
+		assert.strictEqual(weather.getSnowAtDatetime(testDay, testTime), testSnow);
+
+		assert.strictEqual(weather.getSnowAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getSnowAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getSnowAtDatetime(0, false), null);
+		assert.strictEqual(weather.getSnowAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setSnowAtDatetime(0, false, testSnow);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setSnowAtDatetime(false, false, testSnow);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]SnowAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #09 - Method [get/set]SnowDepthAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testSnowDepth;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testSnowDepth = 0;
+		weather.setSnowDepthAtDatetime(testDay, testTime, testSnowDepth);
+		assert.strictEqual(weather.getSnowDepthAtDatetime(testDay, testTime), testSnowDepth);
+
+		testDay = 0;
+		testTime = 0;
+		testSnowDepth = 10;
+		weather.setSnowDepthAtDatetime(testDay, testTime, testSnowDepth);
+		assert.strictEqual(weather.getSnowDepthAtDatetime(testDay, testTime), testSnowDepth);
+
+		assert.strictEqual(weather.getSnowDepthAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getSnowDepthAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getSnowDepthAtDatetime(0, false), null);
+		assert.strictEqual(weather.getSnowDepthAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setSnowDepthAtDatetime(0, false, testSnowDepth);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setSnowDepthAtDatetime(false, false, testSnowDepth);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]SnowDepthAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #10 - Method [get/set]WindgustAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testWindgust;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testWindgust = 0;
+		weather.setWindgustAtDatetime(testDay, testTime, testWindgust);
+		assert.strictEqual(weather.getWindgustAtDatetime(testDay, testTime), testWindgust);
+
+		testDay = 0;
+		testTime = 0;
+		testWindgust = 10;
+		weather.setWindgustAtDatetime(testDay, testTime, testWindgust);
+		assert.strictEqual(weather.getWindgustAtDatetime(testDay, testTime), testWindgust);
+
+		assert.strictEqual(weather.getWindgustAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getWindgustAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getWindgustAtDatetime(0, false), null);
+		assert.strictEqual(weather.getWindgustAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setWindgustAtDatetime(0, false, testWindgust);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setWindgustAtDatetime(false, false, testWindgust);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]WindgustAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #11 - Method [get/set]WindspeedAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testWindspeed;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testWindspeed = 0;
+		weather.setWindspeedAtDatetime(testDay, testTime, testWindspeed);
+		assert.strictEqual(weather.getWindspeedAtDatetime(testDay, testTime), testWindspeed);
+
+		testDay = 0;
+		testTime = 0;
+		testWindspeed = 10;
+		weather.setWindspeedAtDatetime(testDay, testTime, testWindspeed);
+		assert.strictEqual(weather.getWindspeedAtDatetime(testDay, testTime), testWindspeed);
+
+		assert.strictEqual(weather.getWindspeedAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getWindspeedAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getWindspeedAtDatetime(0, false), null);
+		assert.strictEqual(weather.getWindspeedAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setWindspeedAtDatetime(0, false, testWindspeed);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setWindspeedAtDatetime(false, false, testWindspeed);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]WindspeedAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #12 - Method [get/set]WinddirAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testWinddir;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testWinddir = 0;
+		weather.setWinddirAtDatetime(testDay, testTime, testWinddir);
+		assert.strictEqual(weather.getWinddirAtDatetime(testDay, testTime), testWinddir);
+
+		testDay = 0;
+		testTime = 0;
+		testWinddir = 10;
+		weather.setWinddirAtDatetime(testDay, testTime, testWinddir);
+		assert.strictEqual(weather.getWinddirAtDatetime(testDay, testTime), testWinddir);
+
+		assert.strictEqual(weather.getWinddirAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getWinddirAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getWinddirAtDatetime(0, false), null);
+		assert.strictEqual(weather.getWinddirAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setWinddirAtDatetime(0, false, testWinddir);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setWinddirAtDatetime(false, false, testWinddir);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]WinddirAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #13 - Method [get/set]PressureAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testPressure;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testPressure = 0;
+		weather.setPressureAtDatetime(testDay, testTime, testPressure);
+		assert.strictEqual(weather.getPressureAtDatetime(testDay, testTime), testPressure);
+
+		testDay = 0;
+		testTime = 0;
+		testPressure = 10;
+		weather.setPressureAtDatetime(testDay, testTime, testPressure);
+		assert.strictEqual(weather.getPressureAtDatetime(testDay, testTime), testPressure);
+
+		assert.strictEqual(weather.getPressureAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getPressureAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getPressureAtDatetime(0, false), null);
+		assert.strictEqual(weather.getPressureAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setPressureAtDatetime(0, false, testPressure);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setPressureAtDatetime(false, false, testPressure);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]PressureAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #14 - Method [get/set]CloudcoverAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testCloudcover;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testCloudcover = 0;
+		weather.setCloudcoverAtDatetime(testDay, testTime, testCloudcover);
+		assert.strictEqual(weather.getCloudcoverAtDatetime(testDay, testTime), testCloudcover);
+
+		testDay = 0;
+		testTime = 0;
+		testCloudcover = 10;
+		weather.setCloudcoverAtDatetime(testDay, testTime, testCloudcover);
+		assert.strictEqual(weather.getCloudcoverAtDatetime(testDay, testTime), testCloudcover);
+
+		assert.strictEqual(weather.getCloudcoverAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getCloudcoverAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getCloudcoverAtDatetime(0, false), null);
+		assert.strictEqual(weather.getCloudcoverAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setCloudcoverAtDatetime(0, false, testCloudcover);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setCloudcoverAtDatetime(false, false, testCloudcover);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]CloudcoverAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #15 - Method [get/set]VisibilityAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testVisibility;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testVisibility = 0;
+		weather.setVisibilityAtDatetime(testDay, testTime, testVisibility);
+		assert.strictEqual(weather.getVisibilityAtDatetime(testDay, testTime), testVisibility);
+
+		testDay = 0;
+		testTime = 0;
+		testVisibility = 10;
+		weather.setVisibilityAtDatetime(testDay, testTime, testVisibility);
+		assert.strictEqual(weather.getVisibilityAtDatetime(testDay, testTime), testVisibility);
+
+		assert.strictEqual(weather.getVisibilityAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getVisibilityAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getVisibilityAtDatetime(0, false), null);
+		assert.strictEqual(weather.getVisibilityAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setVisibilityAtDatetime(0, false, testVisibility);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setVisibilityAtDatetime(false, false, testVisibility);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]VisibilityAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #16 - Method [get/set]SolarradiationAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testSolarradiation;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testSolarradiation = 0;
+		weather.setSolarradiationAtDatetime(testDay, testTime, testSolarradiation);
+		assert.strictEqual(weather.getSolarradiationAtDatetime(testDay, testTime), testSolarradiation);
+
+		testDay = 0;
+		testTime = 0;
+		testSolarradiation = 10;
+		weather.setSolarradiationAtDatetime(testDay, testTime, testSolarradiation);
+		assert.strictEqual(weather.getSolarradiationAtDatetime(testDay, testTime), testSolarradiation);
+
+		assert.strictEqual(weather.getSolarradiationAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getSolarradiationAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getSolarradiationAtDatetime(0, false), null);
+		assert.strictEqual(weather.getSolarradiationAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setSolarradiationAtDatetime(0, false, testSolarradiation);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setSolarradiationAtDatetime(false, false, testSolarradiation);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]SolarradiationAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #17 - Method [get/set]SolarenergyAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testSolarenergy;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testSolarenergy = 0;
+		weather.setSolarenergyAtDatetime(testDay, testTime, testSolarenergy);
+		assert.strictEqual(weather.getSolarenergyAtDatetime(testDay, testTime), testSolarenergy);
+
+		testDay = 0;
+		testTime = 0;
+		testSolarenergy = 10;
+		weather.setSolarenergyAtDatetime(testDay, testTime, testSolarenergy);
+		assert.strictEqual(weather.getSolarenergyAtDatetime(testDay, testTime), testSolarenergy);
+
+		assert.strictEqual(weather.getSolarenergyAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getSolarenergyAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getSolarenergyAtDatetime(0, false), null);
+		assert.strictEqual(weather.getSolarenergyAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setSolarenergyAtDatetime(0, false, testSolarenergy);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setSolarenergyAtDatetime(false, false, testSolarenergy);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]SolarenergyAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #18 - Method [get/set]UvindexAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testUvindex;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testUvindex = 0;
+		weather.setUvindexAtDatetime(testDay, testTime, testUvindex);
+		assert.strictEqual(weather.getUvindexAtDatetime(testDay, testTime), testUvindex);
+
+		testDay = 0;
+		testTime = 0;
+		testUvindex = 10;
+		weather.setUvindexAtDatetime(testDay, testTime, testUvindex);
+		assert.strictEqual(weather.getUvindexAtDatetime(testDay, testTime), testUvindex);
+
+		assert.strictEqual(weather.getUvindexAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getUvindexAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getUvindexAtDatetime(0, false), null);
+		assert.strictEqual(weather.getUvindexAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setUvindexAtDatetime(0, false, testUvindex);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setUvindexAtDatetime(false, false, testUvindex);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]UvindexAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #19 - Method [get/set]SevereriskAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testSevererisk;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testSevererisk = 0;
+		weather.setSevereriskAtDatetime(testDay, testTime, testSevererisk);
+		assert.strictEqual(weather.getSevereriskAtDatetime(testDay, testTime), testSevererisk);
+
+		testDay = 0;
+		testTime = 0;
+		testSevererisk = 10;
+		weather.setSevereriskAtDatetime(testDay, testTime, testSevererisk);
+		assert.strictEqual(weather.getSevereriskAtDatetime(testDay, testTime), testSevererisk);
+
+		assert.strictEqual(weather.getSevereriskAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getSevereriskAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getSevereriskAtDatetime(0, false), null);
+		assert.strictEqual(weather.getSevereriskAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setSevereriskAtDatetime(0, false, testSevererisk);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setSevereriskAtDatetime(false, false, testSevererisk);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]SevereriskAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #20 - Method [get/set]StationsAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testStations;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testStations = ['station#1'];
+		weather.setStationsAtDatetime(testDay, testTime, testStations);
+		assert.strictEqual(weather.getStationsAtDatetime(testDay, testTime), testStations);
+
+		testDay = 0;
+		testTime = 0;
+		testStations = ['station#2'];
+		weather.setStationsAtDatetime(testDay, testTime, testStations);
+		assert.strictEqual(weather.getStationsAtDatetime(testDay, testTime), testStations);
+
+		assert.strictEqual(weather.getStationsAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getStationsAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getStationsAtDatetime(0, false), null);
+		assert.strictEqual(weather.getStationsAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setStationsAtDatetime(0, false, testStations);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setStationsAtDatetime(false, false, testStations);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]StationsAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #21 - Method [get/set]SourceAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testSource;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testSource = 'source#1';
+		weather.setSourceAtDatetime(testDay, testTime, testSource);
+		assert.strictEqual(weather.getSourceAtDatetime(testDay, testTime), testSource);
+
+		testDay = 0;
+		testTime = 0;
+		testSource = 'source#2';
+		weather.setSourceAtDatetime(testDay, testTime, testSource);
+		assert.strictEqual(weather.getSourceAtDatetime(testDay, testTime), testSource);
+
+		assert.strictEqual(weather.getSourceAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getSourceAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getSourceAtDatetime(0, false), null);
+		assert.strictEqual(weather.getSourceAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setSourceAtDatetime(0, false, testSource);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setSourceAtDatetime(false, false, testSource);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]SourceAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST SUITE #10 - Test Weather Instance Methods - Description elements at datetime
+	suiteDesc = 'Test Weather Instance Methods - Description elements at datetime';
+	suites.set(suiteDesc, []);
+
+	// TEST #01 - Method [get/set]ConditionsAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testConditions;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testConditions = 'cond#1';
+		weather.setConditionsAtDatetime(testDay, testTime, testConditions);
+		assert.strictEqual(weather.getConditionsAtDatetime(testDay, testTime), testConditions);
+
+		testDay = 0;
+		testTime = 0;
+		testConditions = 'cond#2';
+		weather.setConditionsAtDatetime(testDay, testTime, testConditions);
+		assert.strictEqual(weather.getConditionsAtDatetime(testDay, testTime), testConditions);
+
+		assert.strictEqual(weather.getConditionsAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getConditionsAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getConditionsAtDatetime(0, false), null);
+		assert.strictEqual(weather.getConditionsAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setConditionsAtDatetime(0, false, testConditions);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setConditionsAtDatetime(false, false, testConditions);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]ConditionsAtDatetime()...test#1';
+
+	testData.skip = false;
+	suites.get(suiteDesc).push(testData);
+
+	// TEST #02 - Method [get/set]IconAtDatetime()...test#1
+	testData = {};
+
+	testData.method = async () => {
+		let sample = JSON.parse(sampleActive);
+
+		let weather = new Weather();
+		weather.setWeatherData(sample);
+
+		let testDay, testTime, testIcon;
+
+		testDay = sample.days[0].datetime;
+		testTime = sample.days[0].hours[0].datetime;
+		testIcon = 'icon#1';
+		weather.setIconAtDatetime(testDay, testTime, testIcon);
+		assert.strictEqual(weather.getIconAtDatetime(testDay, testTime), testIcon);
+
+		testDay = 0;
+		testTime = 0;
+		testIcon = 'icon#2';
+		weather.setIconAtDatetime(testDay, testTime, testIcon);
+		assert.strictEqual(weather.getIconAtDatetime(testDay, testTime), testIcon);
+
+		assert.strictEqual(weather.getIconAtDatetime(0, '24:00:00'), null);
+		assert.strictEqual(weather.getIconAtDatetime('1970-01-01', 0), null);
+		assert.strictEqual(weather.getIconAtDatetime(0, false), null);
+		assert.strictEqual(weather.getIconAtDatetime(false, false), null);
+
+		assert.throws(
+			() => {
+				weather.setIconAtDatetime(0, false, testIcon);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+		assert.throws(
+			() => {
+				weather.setIconAtDatetime(false, false, testIcon);
+			},
+			(err) => {
+				assert(err instanceof TypeError);
+				return true;
+			}
+		);
+	};
+	testData.desc = 'Method [get/set]IconAtDatetime()...test#1';
 
 	testData.skip = false;
 	suites.get(suiteDesc).push(testData);
