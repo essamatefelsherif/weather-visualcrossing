@@ -2,7 +2,7 @@
 
 A JavaScript library to access weather Data from [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api). The library defines a single class **Weather** for fetching and managing weather data. It encapsulates all related weather parameters, stores JSON responses from the Weather API, and provides methods to retrieve and manipulate this data.
 
-[![Coverage Status](https://coveralls.io/repos/github/essamatefelsherif/weather-visualcrossing/badge.svg?branch=main)](https://coveralls.io/github/essamatefelsherif/weather-visualcrossing?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/essamatefelsherif/weather-visualcrossing/badge.svg)](https://coveralls.io/github/essamatefelsherif/weather-visualcrossing)
 
 
 ## References
