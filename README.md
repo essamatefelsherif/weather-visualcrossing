@@ -1,16 +1,16 @@
 # weather-visualcrossing
 
-A JavaScript Library To Access Weather Data from [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api). The library defines a single class *Weather* for fetching and managing weather data. It encapsulates all related weather parameters, storing JSON responses from the Weather API, and provides methods to retrieve and manipulate this data.
+A JavaScript library to access weather Data from [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api). The library defines a single class **Weather** for fetching and managing weather data. It encapsulates all related weather parameters, stores JSON responses from the Weather API, and provides methods to retrieve and manipulate this data.
 
 [![Coverage Status](https://coveralls.io/repos/github/essamatefelsherif/weather-visualcrossing/badge.svg?branch=main)](https://coveralls.io/github/essamatefelsherif/weather-visualcrossing?branch=main)
 
 
 ## References
 
-* [Visual Crossing Weather API & Weather Data](https://www.visualcrossing.com/).
-* [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api/).
-* [Visual Crossing Weather API Documentation](https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/).
-* [Visual Crossing Libraries](https://github.com/visualcrossing/Libraries/tree/main/JavaScript).
+* [Visual Crossing](https://www.visualcrossing.com/) Global Weather Data & API provider.
+* [Visual Crossing Weather API](https://www.visualcrossing.com/weather-api/) Sign up for free to query Global Weather Data API.
+* [Visual Crossing Weather API Documentation](https://www.visualcrossing.com/resources/documentation/weather-api/timeline-weather-api/) Weather Data API Documentation.
+* [Visual Crossing Libraries](https://github.com/visualcrossing/Libraries/tree/main/JavaScript) This package is a fork from this library.
 
 
 ## Installation
@@ -22,12 +22,12 @@ npm install [-g] @essamonline/weather-visualcrossing
 
 ## Usage
 
-With ESM or TypeScript,
+With ESM or TypeScript:
 
 ```js
 import { Weather } from '@essamonline/weather-visualcrossing';
 ```
-Sign up for a free account to obtain an API key and include the key in a file called *.api-key* located at the package root directory.
+Sign up for a Visual Crossing free account to obtain an API key and include in a file called '**.api-key**' located at the package root directory.
 
 
 ## Weather class
@@ -292,9 +292,14 @@ class Weather{
 }
 ```
 
+## Testing
+
+**weather-visualcrossing** was tested using [node:test](https://nodejs.org/docs/latest-v20.x/api/test.html) module facilitates.
+
+
 ## Documentation
 
-Source code documentation, along with a test coverage report and more relevant documents are all included under [Documentation](https://essamatefelsherif.github.io/weather-visualcrossing/ "Documentation").
+Source code documentation, along with a test coverage report are both included under [Documentation](https://essamatefelsherif.github.io/weather-visualcrossing/ "Documentation").
 
 
 ## License
